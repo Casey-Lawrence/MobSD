@@ -11,34 +11,38 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ReviewAdapter(
     private val reviews: MutableList<Review>,
-    private val genres: List<String>, // Pass genres as a parameter
+    private val genres: List<String>, // List of available genres
     private val onGenreChanged: (Review, String) -> Unit // Callback for genre change
 ) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
 
-    // ViewHolder class that holds references to each review's views
-    class ReviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val titleEditText: EditText = itemView.findViewById(R.id.titleEditText) // Changed to EditText
-        val authorEditText: EditText = itemView.findViewById(R.id.authorEditText) // Changed to EditText
-        val genreSpinner: Spinner = itemView.findViewById(R.id.genreSpinner) // Spinner for genre
-        val reviewEditText: EditText = itemView.findViewById(R.id.reviewEditText) // Changed to EditText
+    fun updateReviews(newReviews: List<Review>) {
+        reviews.clear()
+        reviews.addAll(newReviews)
+        notifyDataSetChanged()
     }
 
-    // Inflate review item layout and create ViewHolder
+    class ReviewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val titleEditText: EditText = itemView.findViewById(R.id.titleEditText)
+        val authorEditText: EditText = itemView.findViewById(R.id.authorEditText)
+        val genreSpinner: Spinner = itemView.findViewById(R.id.genreSpinner)
+        val reviewEditText: EditText = itemView.findViewById(R.id.reviewEditText)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
         return ReviewViewHolder(itemView)
     }
 
-    // Bind data to views for each review
+
     override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
         val currentReview = reviews[position]
 
-        // Set text for EditTexts
+        // Bind review data to UI components
         holder.titleEditText.setText(currentReview.title)
         holder.authorEditText.setText(currentReview.author)
         holder.reviewEditText.setText(currentReview.review)
 
-        // Set up the Spinner adapter
+        // Set up the spinner adapter
         val adapter = ArrayAdapter(
             holder.itemView.context,
             android.R.layout.simple_spinner_item,
@@ -48,10 +52,10 @@ class ReviewAdapter(
         }
         holder.genreSpinner.adapter = adapter
 
-        // Set the current selection in the Spinner
+        // Set the spinner selection to the current genre
         holder.genreSpinner.setSelection(genres.indexOf(currentReview.genre))
 
-        // Handle Spinner item selection
+        // Handle genre selection changes
         holder.genreSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -61,17 +65,15 @@ class ReviewAdapter(
             ) {
                 val selectedGenre = genres[position]
                 if (selectedGenre != currentReview.genre) {
-                    onGenreChanged(currentReview, selectedGenre) // Trigger callback for genre change
+                    onGenreChanged(currentReview, selectedGenre) // Notify parent of the change
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // No-op
+                // No action needed
             }
         }
     }
 
-    // Return total number of reviews
     override fun getItemCount() = reviews.size
 }
-

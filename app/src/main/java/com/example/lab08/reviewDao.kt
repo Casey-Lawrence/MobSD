@@ -8,20 +8,18 @@ import androidx.room.Update
 
 @Dao
 interface ReviewDao{
-//    Insert a new review
+    //    Insert a new review
     @Insert
     suspend fun insert(review: Review)
 
-//    update a review
+    //    update a review
     @Update
     suspend fun update(review: Review)
 
-//    view all reviews
+    //    view all reviews
     @Query("SELECT * FROM reviews")
     suspend fun getAllReviews(): List<Review>
-//
-//    @Query("SELECT * FROM items WHERE id = :itemId LIMIT 1")
-//    suspend fun getItemById(itemId: Int): Item
+    // delete review
     @Delete
     suspend fun deleteReview(review:Review)
 }

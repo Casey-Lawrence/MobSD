@@ -1,9 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Lab08" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+    <style name="Theme.NovelNotes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <!-- Primary app colors -->
+    <item name="colorPrimary">@color/sage_green</item>
+    <item name="colorPrimaryVariant">@color/dark_sage</item>
+    <item name="colorOnPrimary">@color/white</item>
+    <item name="colorSecondary">@color/sage_green</item>
+        <item name="android:statusBarColor">@color/dark_sage</item>
+</style>
 
-    <style name="Theme.Lab08" parent="Base.Theme.Lab08" />
 </resources>
